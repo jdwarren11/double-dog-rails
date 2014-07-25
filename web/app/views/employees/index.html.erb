@@ -1,0 +1,25 @@
+<h1>All Employees:</h1>
+
+<ul>
+    <% @employees.each do |employee| %>
+        <li><%= link_to employee.username, "/employees/#{employee.id}" %></li>
+    <% end %>
+</ul>
+
+<form action="/employees" method="post">
+    <h3>Create New Employee:</h3>
+
+    <label for='username'>Name:</label>
+    <input type='text' id='username' name='employee[username]'>
+    
+    <br />
+
+    <label for='password'>password:</label>
+    <input type='text' id='password' name='employee[password]'>
+
+    <br />
+
+    <input name='authenticity_token' value='<%= form_authenticity_token %>' type='hidden'>
+
+    <input type='submit' value='submit'>
+</form>

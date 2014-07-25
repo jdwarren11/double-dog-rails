@@ -1,0 +1,29 @@
+<h1>All Items:</h1>
+
+<ul>
+<% @items.each do |item| %>
+    <li><%= link_to item.name, "/items/#{item.id}" %></li>
+<% end %>
+</ul>
+
+<% if @error %>
+<h3>Error: <%= @error %></h3>
+<% end %>
+
+<form action="/items" method="post">
+    <h3>Create New Item:</h3>
+
+    <label for='name'>Name:</label>
+    <input value="<%= @item.name %>" type='text' id='name' name='item[name]'>
+    
+    <br />
+
+    <label for='price'>Price:</label>
+    <input value="<%= @item.price %>" type='text' id='price' name='item[price]'>
+
+    <br />
+
+    <input name='authenticity_token' value='<%= form_authenticity_token %>' type='hidden'>
+
+    <input type='submit' value='submit'>
+</form>

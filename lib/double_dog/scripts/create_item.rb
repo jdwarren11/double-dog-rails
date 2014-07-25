@@ -2,6 +2,7 @@ module DoubleDog
   class CreateItem
 
     def run(params)
+      params[:price] = params[:price].to_i 
       return failure(:not_admin) unless admin_session?(params[:session_id])
       return failure(:invalid_name) unless valid_name?(params[:name])
       return failure(:invalid_price) unless valid_price?(params[:price])

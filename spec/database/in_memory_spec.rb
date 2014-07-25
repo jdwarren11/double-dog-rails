@@ -26,6 +26,18 @@ describe DoubleDog::Database::InMemory do
     expect(retrieved_user.has_password? 'pass2').to eq true
   end
 
+  it "retrieves all users" do
+    db.create_user(:username => 'bob', :password => 'pass2')
+    db.create_user(:username => 'sue', :password => 'pass3')
+    db.create_user(:username => 'joe', :password => 'pass4')
+
+    users = db.all_users
+    expect(users.count).to eq 3
+    expect(users.first).to be_a DoubleDog::User
+
+    expect(users.map &:username).to include('bob', 'sue', 'joe')
+  end
+
   it "creates a session and returns its id" do
     session_id = db.create_session(:user_id => 8)
     expect(session_id).to_not be_a Hash
@@ -121,5 +133,23 @@ describe DoubleDog::Database::InMemory do
     expect(orders.count).to eq(3)
     expect(orders.map &:employee_id).to include(emp_1.id, emp_2.id, emp_3.id)
     expect(orders.first.items.count).to be >= 2
+  end
+
+  it "grabs all orders by employee id" do
+    item_1 = db.create_item(:name => 'fries', :price => 3)
+    item_2 = db.create_item(:name => 'pickle', :price => 4)
+    item_3 = db.create_item(:name => 'potato', :price => 8)
+    emp_1 = db.create_user(:username => 'mitch', :password => 'pass1')
+    emp_2 = db.create_user(:username => 'mell', :password => 'pass2')
+
+    order_1 = db.create_order(:employee_id => emp_1.id, :items => [item_1, item_2, item_3])
+    order_2 = db.create_order(:employee_id => emp_1.id, :items => [item_1, item_3])
+    order_3 = db.create_order(:employee_id => emp_2.id, :items => [item_2, item_3])
+
+    orders = db.get_orders_by_employee(emp_1.id)
+    expect(orders.count).to eq 2
+    expect(orders.first).to be_a DoubleDog::Order
+    expect(orders.first.employee_id).to eq(emp_1.id)
+    expect(orders.first.items).to eq([item_1, item_2, item_3])
   end
 end

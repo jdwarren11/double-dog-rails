@@ -1,3 +1,4 @@
+require 'pry-byebug'
 module DoubleDog
   module Database
     class InMemory
@@ -23,6 +24,12 @@ module DoubleDog
       def get_user(id)
         attrs = @users[id]
         User.new(attrs[:id], attrs[:username], attrs[:password], attrs[:admin])
+      end
+
+      def all_users
+        @users.values.map do |attrs|
+          User.new(attrs[:id], attrs[:username], attrs[:password], attrs[:admin])
+        end
       end
 
       def create_session(attrs)
@@ -77,6 +84,15 @@ module DoubleDog
       def all_orders
         @orders.values.map do |attrs|
           Order.new(attrs[:id], attrs[:employee_id], attrs[:items])
+        end
+      end
+
+      def get_orders_by_employee(id)
+        order_attrs = @orders.values.select { |attrs| attrs[:employee_id] == id }
+        # binding.pry
+        return nil if order_attrs.nil?
+        order_attrs.map do |order|
+          Order.new(order[:id], order[:employee_id], order[:items])
         end
       end
     end

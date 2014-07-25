@@ -17,9 +17,10 @@ describe 'Creating an Order' do
     item3 = DoubleDog.db.create_item(:name => 'Juice', :price => 7)
 
     # When I create an order
+    # change itemx to itemx.id
     create_result = DoubleDog::CreateOrder.new.run(
       :session_id => session_id,
-      :items => [item1, item2, item3]
+      :items => [item1.id, item2.id, item3.id]
     )
     expect(create_result[:success?]).to eq true
 

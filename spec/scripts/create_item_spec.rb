@@ -56,6 +56,11 @@ describe DoubleDog::CreateItem do
     result = script.run(:name => 'smoothie', :price => 10)
     expect(result[:success?]).to eq true
 
+    # In ItemsController#create
+    # merge creates a new merged hash
+    # create_item_params = item_params.merge(:session_id => $session_id)
+    # result = DoubleDog::CreateItem.new.run(create_item_params)
+
     item = result[:item]
     expect(item.id).to_not be_nil
     expect(item.name).to eq 'smoothie'

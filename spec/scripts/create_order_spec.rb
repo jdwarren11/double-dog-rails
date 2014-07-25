@@ -41,7 +41,7 @@ describe DoubleDog::CreateOrder do
     expect(DoubleDog.db).to receive(:get_user_by_session_id).and_return(user)
     script = DoubleDog::CreateOrder.new
 
-    result = script.run(session_id: 'stubbed', items: [item_1])
+    result = script.run(session_id: 'stubbed', items: [item_1.id])
 
     expect(result[:success?]).to eq(true)
 

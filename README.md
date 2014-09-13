@@ -2,9 +2,8 @@
 
 A Point of Sales system built for Double Dog Hot Dogs.
 
--------------------------
 In this MakerSquare assignment, I practiced adding Rails on to an existing application. Since the original Double Dog system was created with proper software architecture, it allowed me to easily add rails on top of the application as a new delivery system.
--------------------------
+
 
 ----
 ## User Stories
